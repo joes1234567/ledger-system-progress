@@ -5,23 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ledger_system v1 進度儀表板</title>
 <style>
-  :root{
-    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
-    --txt:#e6e9ef; --muted:#9aa3b2; --accent:#5b8cff; --accent2:#7c5cff;
-    --green:#34d399; --amber:#fbbf24; --red:#f87171; --grey:#6b7280; --blue:#60a5fa;
-  }
+  :root{--bg:#0f1115;--panel:#171a21;--panel2:#1e222b;--line:#2a2f3a;--txt:#e6e9ef;--muted:#9aa3b2;--accent:#5b8cff;--accent2:#7c5cff;--green:#34d399;--amber:#fbbf24;--red:#f87171;--grey:#6b7280;--blue:#60a5fa;}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;
-    background:var(--bg);color:var(--txt);line-height:1.6;padding:0 0 60px}
+  body{font-family:-apple-system,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;padding:0 0 60px}
   .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
-  header{background:linear-gradient(135deg,#1b2030,#241b3a 60%,#2a1d3d);
-    border-bottom:1px solid var(--line);padding:34px 0 28px;margin-bottom:28px}
+  header{background:linear-gradient(135deg,#15301f,#1b2030 50%,#241b3a);border-bottom:1px solid var(--line);padding:34px 0 28px;margin-bottom:28px}
   header .wrap{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px}
   h1{font-size:26px;letter-spacing:.5px}
-  h1 .dot{color:var(--accent)}
+  h1 .dot{color:var(--green)}
   .sub{color:var(--muted);font-size:14px;margin-top:6px}
-  .pill{display:inline-block;padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;
-    background:rgba(52,211,153,.15);color:var(--green);border:1px solid rgba(52,211,153,.4)}
+  .pill{display:inline-block;padding:6px 14px;border-radius:999px;font-size:13px;font-weight:700;background:rgba(52,211,153,.2);color:var(--green);border:1px solid rgba(52,211,153,.5)}
   .updated{color:var(--muted);font-size:12px;margin-top:8px}
   h2{font-size:18px;margin:34px 0 14px;padding-left:12px;border-left:3px solid var(--accent);}
   .grid{display:grid;gap:14px}
@@ -38,7 +31,7 @@
   .phase-row{display:flex;align-items:center;gap:14px;padding:8px 0}
   .phase-name{width:200px;font-size:14px;font-weight:500}
   .bar{flex:1;height:14px;background:var(--panel2);border-radius:7px;overflow:hidden;border:1px solid var(--line)}
-  .bar-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--accent));border-radius:7px;transition:width 1s}
+  .bar-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--accent));border-radius:7px}
   .phase-pct{width:60px;text-align:right;font-size:13px;color:var(--muted)}
   table{width:100%;border-collapse:collapse;font-size:13.5px}
   th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
@@ -46,18 +39,14 @@
   td code{background:var(--panel2);padding:1px 6px;border-radius:4px;font-size:12px}
   .risk{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
   .risk:last-child{border-bottom:none}
-  .risk .meta{flex:1}
-  .risk .title{font-weight:600;font-size:14px}
-  .risk .desc{color:var(--muted);font-size:12.5px;margin-top:2px}
+  .risk .meta{flex:1}.risk .title{font-weight:600;font-size:14px}.risk .desc{color:var(--muted);font-size:12.5px;margin-top:2px}
   .feat li{list-style:none;padding:6px 10px;border-radius:6px;font-size:13.5px}
   .feat .ok{background:rgba(52,211,153,.08);border-left:3px solid var(--green)}
-  .feat .no{background:rgba(107,114,128,.08);border-left:3px solid var(--grey);color:var(--muted)}
+  .feat .no{background:rgba(96,165,250,.08);border-left:3px solid var(--blue)}
   .cost{grid-template-columns:repeat(3,1fr)}
-  .cost .card .h{color:var(--muted);font-size:12px;font-weight:500}
-  .cost .card .v{font-size:22px;font-weight:700;margin-top:4px}
-  .banner{background:linear-gradient(135deg,rgba(52,211,153,.12),rgba(91,140,255,.08));
-    border:1px solid rgba(52,211,153,.3);border-radius:12px;padding:14px 18px;margin-bottom:18px}
-  .banner .t{color:var(--green);font-weight:600;font-size:14px}
+  .cost .card .h{color:var(--muted);font-size:12px;font-weight:500}.cost .card .v{font-size:22px;font-weight:700;margin-top:4px}
+  .banner{background:linear-gradient(135deg,rgba(52,211,153,.16),rgba(124,92,255,.08));border:1px solid rgba(52,211,153,.4);border-radius:12px;padding:16px 18px;margin-bottom:18px}
+  .banner .t{color:var(--green);font-weight:700;font-size:15px}
   .banner .d{color:var(--muted);font-size:13px;margin-top:4px;line-height:1.6}
   footer{color:var(--muted);font-size:12px;text-align:center;margin-top:40px;padding:0 20px;line-height:1.8}
   footer code{background:var(--panel2);padding:1px 6px;border-radius:4px}
@@ -69,28 +58,28 @@
   <div class="wrap">
     <div>
       <h1><span class="dot">●</span> ledger_system v1 進度儀表板</h1>
-      <div class="sub">公司內部 Web 記帳系統　·　Django 5 + PostgreSQL 16　·　AI Team 第一個真實客戶案</div>
-      <div class="updated">最後更新：2026-05-31　·　Phase 5「報表與匯出」完全結案　·　由 Orchestrator 手刻</div>
+      <div class="sub">公司內部 Web 記帳系統　·　Django 5 + PostgreSQL 16　·　AI Team 第一個真實內部系統</div>
+      <div class="updated">最後更新：2026-05-31　·　🎉 v1 全部完成（Phase 0-6）　·　由 Orchestrator 手刻</div>
     </div>
-    <div style="text-align:right"><span class="pill">Phase 5 ✅ 完成</span></div>
+    <div style="text-align:right"><span class="pill">🎉 v1 100% 完成</span></div>
   </div>
 </header>
 
 <div class="wrap">
 
   <div class="banner">
-    <div class="t">🎯 Phase 5：0 bug + 中途 model retrofit 零退化 + 無登入端點過 OWASP 複查</div>
-    <div class="d">is_overseas 旗標加進 Phase 2 既有模型、557 regression 0 退化 · 6 報表 + CSV/Excel 匯出 + D8a 無登入簽名下載（HMAC+TTL 三道驗證）· code-review 抓死連結→rework 補 serve · /security-review 0 high（連 4 phase）· qa 638 tests / 4 模組 mutation 全達標 / 0 bug · 🏆 連續 5 phase 架構型 high=0 達 steady 里程碑</div>
+    <div class="t">🎉🎉🎉 ledger v1 六個 phase 全部完成——AI Team 第一個真實內部系統端到端跑通</div>
+    <div class="d">Phase 0-6 全結案 · 733 tests / 0 regression · 27 模組 mutation 達標 · <b>5 phase /security-review 全 0 high</b> · 連 6 phase 架構型 high=0 · 部署包就緒（prod compose/nginx-TLS/備份/匯入/runbook）。AI Team 端交付齊，待業主在自管 VPS 上線。</div>
   </div>
 
   <div class="grid stats">
-    <div class="card stat"><div class="n">6 / 7</div><div class="l">已完成 Phase</div><div class="s"><span class="badge b-green">Phase 0-5 結案</span></div></div>
-    <div class="card stat"><div class="n">638</div><div class="l">自動化測試（全綠）</div><div class="s"><span class="badge b-green">0 failed</span> <span class="badge b-grey">0 regression</span></div></div>
-    <div class="card stat"><div class="n">達標</div><div class="l">mutation kill rate</div><div class="s"><span class="badge b-green">25 模組全達門檻</span></div></div>
-    <div class="card stat"><div class="n">~85%</div><div class="l">v1 整體完成度</div><div class="s"><span class="badge b-amber">剩 Phase 6 部署</span></div></div>
+    <div class="card stat"><div class="n">7 / 7</div><div class="l">Phase 全完成</div><div class="s"><span class="badge b-green">Phase 0-6 結案</span></div></div>
+    <div class="card stat"><div class="n">733</div><div class="l">自動化測試（全綠）</div><div class="s"><span class="badge b-green">0 failed</span> <span class="badge b-grey">0 regression</span></div></div>
+    <div class="card stat"><div class="n">27</div><div class="l">mutation 模組達標</div><div class="s"><span class="badge b-green">全達門檻</span></div></div>
+    <div class="card stat"><div class="n">100%</div><div class="l">v1 完成度</div><div class="s"><span class="badge b-green">待業主 VPS cutover</span></div></div>
   </div>
 
-  <h2>v1 整體進度（7 Phase）</h2>
+  <h2>v1 整體進度（7 Phase 全綠）</h2>
   <div class="card">
     <div class="phase-row"><div class="phase-name">Phase 0 決策補齊</div><div class="bar"><div class="bar-fill" style="width:100%"></div></div><div class="phase-pct">✅ 100%</div></div>
     <div class="phase-row"><div class="phase-name">Phase 1 地基</div><div class="bar"><div class="bar-fill" style="width:100%"></div></div><div class="phase-pct">✅ 100%</div></div>
@@ -98,130 +87,82 @@
     <div class="phase-row"><div class="phase-name">Phase 3 附件管理</div><div class="bar"><div class="bar-fill" style="width:100%"></div></div><div class="phase-pct">✅ 100%</div></div>
     <div class="phase-row"><div class="phase-name">Phase 4 單層審核</div><div class="bar"><div class="bar-fill" style="width:100%"></div></div><div class="phase-pct">✅ 100%</div></div>
     <div class="phase-row"><div class="phase-name">Phase 5 報表與匯出</div><div class="bar"><div class="bar-fill" style="width:100%"></div></div><div class="phase-pct">✅ 100%</div></div>
-    <div class="phase-row"><div class="phase-name">Phase 6 上線前檢查</div><div class="bar"><div class="bar-fill" style="width:0%"></div></div><div class="phase-pct">⏳ 0%</div></div>
+    <div class="phase-row"><div class="phase-name">Phase 6 部署上線</div><div class="bar"><div class="bar-fill" style="width:100%"></div></div><div class="phase-pct">✅ 100%</div></div>
   </div>
 
-  <h2>系統現在能做什麼 vs 還做不到</h2>
+  <h2>系統能做什麼（v1 全功能）</h2>
   <div class="grid" style="grid-template-columns:1fr 1fr">
     <div class="card">
-      <div style="font-weight:600;color:var(--green);margin-bottom:8px">✅ 能做（已完成）</div>
+      <div style="font-weight:600;color:var(--green);margin-bottom:8px">✅ 核心功能（P1-5）</div>
       <ul class="feat" style="display:grid;grid-template-columns:1fr;gap:8px;margin-top:6px">
         <li class="ok">登入 + 4 角色 RBAC + 多角色聯集</li>
-        <li class="ok">管使用者/部門/專案/分類（Django Admin）</li>
-        <li class="ok">建/改/查/軟刪記帳 + entry_no 自動產生</li>
-        <li class="ok">送審 + 核准/退回/作廢/取消送審（審核流程）</li>
-        <li class="ok">審核者部門 scope 可見性 + 並發保護 + 審核歷程</li>
-        <li class="ok">附件上傳/下載/軟刪（MIME 雙驗 + lifecycle）</li>
-        <li class="ok"><b>6 報表：月收支/分類/部門/專案/待審/附件缺漏</b></li>
-        <li class="ok"><b>報表口徑：entry_date 分月 + 只算 approved + 單一 TWD</b></li>
-        <li class="ok"><b>境外支出分析：用途×境內外交叉（is_overseas 旗標）</b></li>
-        <li class="ok"><b>CSV/Excel 匯出（同步 + 5 萬上限 + ExportJob）</b></li>
-        <li class="ok"><b>D8a 無登入簽名下載（HMAC+TTL 三道驗證、附件離線下載）</b></li>
-        <li class="ok">audit log 全部重要操作（append-only）</li>
+        <li class="ok">記帳 建/改/查/軟刪 + entry_no 自動產生</li>
+        <li class="ok">送審 + 核准/退回/作廢/取消送審 + 並發保護</li>
+        <li class="ok">附件 上傳/下載/軟刪（MIME 雙驗）</li>
+        <li class="ok">6 報表 + CSV/Excel 匯出 + D8a 簽名下載</li>
+        <li class="ok">境外支出分析（is_overseas 交叉）</li>
+        <li class="ok">audit log 全程（append-only）</li>
       </ul>
     </div>
     <div class="card">
-      <div style="font-weight:600;color:var(--muted);margin-bottom:8px">⏳ 還不能（Phase 6）</div>
+      <div style="font-weight:600;color:var(--blue);margin-bottom:8px">🚀 Phase 6 新增（部署/維運）</div>
       <ul class="feat" style="display:grid;grid-template-columns:1fr;gap:8px;margin-top:6px">
-        <li class="no">上線部署（Phase 6、待 Mac mini 遷移）</li>
-        <li class="no">RPO / RTO 備份策略落地（Phase 6）</li>
-        <li class="no">OWASP 級外部 pentest（部署前）</li>
-        <li class="no">使用者面 UI（策略 A：後端全完再統一做）</li>
+        <li class="no">管理員備份下載（DB+media、per-backup 密碼加密）</li>
+        <li class="no">N 天沒備份首頁提醒 + decrypt 還原工具</li>
+        <li class="no">Excel/CSV 模板匯入（dry-run + 冪等 + 逐行驗證）</li>
+        <li class="no">生產部署包：docker-compose + nginx/TLS+HSTS</li>
+        <li class="no">登入 rate-limit + Dockerfile 非 root + pg_dump</li>
+        <li class="no">部署 runbook（含備份還原步驟）</li>
       </ul>
     </div>
   </div>
 
-  <h2>成本記帳（subagent 累計）</h2>
+  <h2>成本記帳（subagent 累計 v1）</h2>
   <div class="grid cost">
-    <div class="card"><div class="h">Token 消耗</div><div class="v">~3,975,000</div><div class="s" style="font-size:12px;color:var(--muted);margin-top:6px">P1 581k · P2 694k · P3 802k · P4 990k · <b style="color:var(--green)">P5 907k</b></div></div>
-    <div class="card"><div class="h">Phase 5 subagent</div><div class="v">7 個</div><div class="s" style="font-size:12px;color:var(--muted);margin-top:6px">bdd·sdd·coding×3·review·qa</div></div>
-    <div class="card"><div class="h">累計 Tests</div><div class="v">638</div><div class="s" style="font-size:12px;color:var(--muted);margin-top:6px">25 模組 mutation 達標 · 0 regression</div></div>
+    <div class="card"><div class="h">Token 消耗（P1-6）</div><div class="v">~5,099,000</div><div class="s" style="font-size:12px;color:var(--muted);margin-top:6px">P6 ~1.12M（含 pg_dump spike + crypto qa）</div></div>
+    <div class="card"><div class="h">累計 Tests</div><div class="v">733</div><div class="s" style="font-size:12px;color:var(--muted);margin-top:6px">0 regression · 27 模組 mutation 達標</div></div>
+    <div class="card"><div class="h">Accepted 決策</div><div class="v">43</div><div class="s" style="font-size:12px;color:var(--muted);margin-top:6px">D1-D42 + 補拍</div></div>
   </div>
 
-  <h2>最近 commits（Phase 5）</h2>
-  <div class="card">
-    <table>
-      <tr><th>SHA</th><th>類型</th><th>說明</th></tr>
-      <tr><td><code>66643c8</code></td><td><span class="badge b-blue">chore</span></td><td>Tier B cleanup：CR-4-002~005 + CR-5-003~005 + signed_url 健壯性 (T034)</td></tr>
-      <tr><td><code>b206a95</code></td><td><span class="badge b-blue">test</span></td><td>T033 報表/匯出/簽名下載 unit tests（5 檔 / 81 tests / mutation 達標）</td></tr>
-      <tr><td><code>651c146</code></td><td><span class="badge b-amber">fix</span></td><td><b>wire D8a 簽名下載 serve（三道驗證）+ CR-5-001/002 (T032)</b></td></tr>
-      <tr><td><code>5b9702c</code></td><td><span class="badge b-green">feat</span></td><td>report/export endpoints + 3 權限類 + Phase 5 smoke (T030)</td></tr>
-      <tr><td><code>4da174c</code></td><td><span class="badge b-green">feat</span></td><td>同步 ExportJob（CSV/xlsx）+ D8a signed URLs + cleanup cron (T030)</td></tr>
-      <tr><td><code>c79cdfa</code></td><td><span class="badge b-green">feat</span></td><td>6 報表 service + entry_date 分月 + TWD 護欄 (T030)</td></tr>
-      <tr><td><code>6cdd80b</code></td><td><span class="badge b-green">feat</span></td><td><b>is_overseas 旗標 retrofit 進 LedgerEntry；557 regression 綠 (T030)</b></td></tr>
-    </table>
-  </div>
-
-  <h2>品質指標</h2>
+  <h2>品質指標（v1 總結）</h2>
   <div class="grid" style="grid-template-columns:repeat(3,1fr)">
     <div class="card">
-      <div style="font-weight:600;margin-bottom:8px">Mutation Kill Rate（25 模組達標）</div>
-      <div style="font-size:13px;line-height:1.9">
-        <b style="color:var(--green)">Phase 1-4 (21)：</b>全 effective 100%<br>
-        <b style="color:var(--accent)">Phase 5 (4)：</b><br>
-        🟢 report.py（6 報表口徑、L1-P）94.2%<br>
-        🟢 export.py（ExportJob、L2）100%<br>
-        🟢 signed_url.py（HMAC+TTL、L1-S）89.8%<br>
-        🟢 permissions 新類（L1-P）100%<br>
-        survived 全 equivalent
-      </div>
+      <div style="font-weight:600;margin-bottom:8px">Mutation（27 模組達標）</div>
+      <div style="font-size:13px;line-height:1.9">P1-5 25 模組 + <b style="color:var(--accent)">P6 2 模組</b>：<br>🟢 backup_service（scrypt+AES-GCM、L1-S）92.5%<br>🟢 template_import（逐行驗證、L2）82.4%（有效 ~95.6%）<br>survived 全 equivalent / minor</div>
     </div>
     <div class="card">
-      <div style="font-weight:600;margin-bottom:8px">38 條 P0 決策（全 accepted）</div>
-      <div style="font-size:13px;line-height:1.9">
-        <b>P1-4 29 條：</b>D1-D29<br>
-        <b style="color:var(--accent)">P5 新 9 條（D30-D37 + a/b）：</b><br>
-        D30 報表分月 = entry_date<br>
-        D31 匯出 = 同步 + 5 萬上限<br>
-        D32 報表 = 單一 TWD 護欄<br>
-        D33 境外 = is_overseas 旗標<br>
-        D34 附件選填、缺漏純提醒<br>
-        D35 匯出檔 7 天 / CSV+Excel<br>
-        D36 admin only / system_admin 禁<br>
-        D37a/b 月匯出篩選 / 缺漏含 pending
-      </div>
+      <div style="font-weight:600;margin-bottom:8px">安全審查（5 phase 全清）</div>
+      <div style="font-size:13px;line-height:1.9">🟢 Phase 2/3/4/5/6：0 high / 0 medium<br><br><b style="color:var(--green)">Phase 6 深一層（D42）：</b><br>自寫備份 crypto（scrypt+AES-GCM、隨機 salt/nonce、密碼不落伺服器）<br>+ pg_dump subprocess（list 無 injection）<br>+ 部署設定（TLS/HSTS/非root/env）<br>全 OWASP 複查 SAFE</div>
     </div>
     <div class="card">
-      <div style="font-weight:600;margin-bottom:8px">安全審查（4 phase 全清）</div>
-      <div style="font-size:13px;line-height:1.9">
-        <b>/security-review：</b><br>
-        🟢 Phase 2/3/4/5：0 high / 0 medium<br>
-        <br>
-        <b>Phase 5 安全亮點：</b><br>
-        🔐 無登入簽名下載 OWASP 複查 SAFE<br>
-        （簽名繞過/TTL繞過/path traversal/<br>
-        　誤開 AllowAny 四攻擊面全 SAFE）<br>
-        🏆 連 5 phase 架構型 high=0
-      </div>
+      <div style="font-weight:600;margin-bottom:8px">流程里程碑</div>
+      <div style="font-size:13px;line-height:1.9">🏆 連續 6 phase 架構型 high=0<br>🎯 §3.1 sdd 規則首見效（抓 pg_dump 不在 container、coding 沒撞牆）<br>🎯 pg_dump 跨 container spike PASS<br>🎯 #8 Orchestrator commit 連 2 phase 零殘留</div>
     </div>
-  </div>
-
-  <h2>已知 Risks / 待處理</h2>
-  <div class="card">
-    <div class="risk"><span class="badge b-grey">Backlog</span><div class="meta"><div class="title">smoke 非冪等債（留 Phase 6）</div><div class="desc">需 flush+reseed、AC 對 flush 敏感；權威閘以 638 pytest 為準、Phase 6 test-infra pass 標準化</div></div></div>
-    <div class="risk"><span class="badge b-grey">Backlog</span><div class="meta"><div class="title">CR-4-005 attachment_count 補測試斷言</div><div class="desc">cleanup 加了欄但既有 test 未斷言；low、Phase 6 qa 補一條</div></div></div>
-    <div class="risk"><span class="badge b-amber">Med</span><div class="meta"><div class="title">未部署（Phase 6 才上線）</div><div class="desc">code 跑本機 Docker、未推 production；Phase 6 部署到<b>自管雲端 VPS</b>（公司內部使用、自管=不上第三方 SaaS）</div></div></div>
-    <div class="risk"><span class="badge b-amber">Med</span><div class="meta"><div class="title">未做 OWASP 級外部 pentest</div><div class="desc">/security-review 4 phase 全 0 high、但部署前仍應做完整外部審查</div></div></div>
-    <div class="risk"><span class="badge b-grey">N/A</span><div class="meta"><div class="title">Phase 6 還沒開始</div><div class="desc">部署 / 備份 / 上線檢查 ⏳</div></div></div>
   </div>
 
   <h2>下一步</h2>
   <div class="card">
     <div style="font-size:14px;line-height:1.8">
-      <b>立即可做（Phase 6 起手）</b><br>
-      → 部署到<b>自管雲端 VPS</b>（公司內部使用）：生產 docker-compose + nginx/TLS + 備份策略（RPO/RTO）+ OWASP pentest<br>
-      → Phase 6 是「部署 phase」、不走標準七步；AI Team 產<b>部署包 + runbook</b>、實際上線由業主在 VPS 執行<br>
-      → Backlog 順手清：smoke 非冪等債 + CR-4-005 補斷言<br>
-      → 註：AI Team 自己遷 Mac 是<b>另一條獨立的路</b>（與本案部署無關）<br><br>
-      <b>Phase 6 後 / 下個專案</b><br>
-      → 統一做使用者面 UI（策略 A）<br>
-      → 真正內部上線、導入員工使用
+      <b>業主端（上線）</b><br>
+      → 在自管雲端 VPS provisioning + cutover（照 runbook）<br>
+      → 用標準模板把舊 Excel 帳匯入<br>
+      → 上線後補一次外部 OWASP pentest（D42 已列 22 項清單）<br><br>
+      <b>下一個工作</b><br>
+      → <b>做 ledger 使用者面 UI</b>（策略 A：後端 v1 全完=現在是時機）<br>
+      → 內部導入員工使用
     </div>
+  </div>
+
+  <h2>已知待辦（backlog）</h2>
+  <div class="card">
+    <div class="risk"><span class="badge b-grey">Backlog</span><div class="meta"><div class="title">smoke 非冪等債 + CR-4-005 補斷言 + P6 mutation 6 minor gap</div><div class="desc">皆 low、權威閘以 733 pytest 為準；之後順手清</div></div></div>
+    <div class="risk"><span class="badge b-amber">業主</span><div class="meta"><div class="title">外部 pentest（上線後）</div><div class="desc">/security-review 5 phase 全 0 high，但正式上線前/後仍應做獨立第三方審查</div></div></div>
+    <div class="risk"><span class="badge b-blue">下一步</span><div class="meta"><div class="title">使用者面 UI（策略 A）</div><div class="desc">後端 v1 全完，現在是統一做 UI 的時機</div></div></div>
   </div>
 
   <footer>
     產自 <code>D:\web\ai-team\projects\ledger_system\LEDGER_DASHBOARD.html</code>　·　唯讀快照、權威狀態以 <code>PROJECT_MEMORY.md</code> 為準<br>
-    每個 Phase 結束時手動重生（標準作法、見 <code>iteration_strategy.md</code>）<br>
+    🎉 v1 全部完成（2026-05-31）· AI Team 第一個真實內部系統端到端交付<br>
     公開 URL：<a href="https://joes1234567.github.io/ledger-system-progress/" style="color:var(--accent)">joes1234567.github.io/ledger-system-progress</a>
   </footer>
 
