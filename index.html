@@ -200,7 +200,7 @@
   <div class="card">
     <div class="risk"><span class="badge b-grey">Backlog</span><div class="meta"><div class="title">smoke 非冪等債（留 Phase 6）</div><div class="desc">需 flush+reseed、AC 對 flush 敏感；權威閘以 638 pytest 為準、Phase 6 test-infra pass 標準化</div></div></div>
     <div class="risk"><span class="badge b-grey">Backlog</span><div class="meta"><div class="title">CR-4-005 attachment_count 補測試斷言</div><div class="desc">cleanup 加了欄但既有 test 未斷言；low、Phase 6 qa 補一條</div></div></div>
-    <div class="risk"><span class="badge b-amber">Med</span><div class="meta"><div class="title">未部署（Phase 6 才上線）</div><div class="desc">code 跑本機 Docker、未推 production；Mac mini 遷移後上內網</div></div></div>
+    <div class="risk"><span class="badge b-amber">Med</span><div class="meta"><div class="title">未部署（Phase 6 才上線）</div><div class="desc">code 跑本機 Docker、未推 production；Phase 6 部署到<b>自管雲端 VPS</b>（公司內部使用、自管=不上第三方 SaaS）</div></div></div>
     <div class="risk"><span class="badge b-amber">Med</span><div class="meta"><div class="title">未做 OWASP 級外部 pentest</div><div class="desc">/security-review 4 phase 全 0 high、但部署前仍應做完整外部審查</div></div></div>
     <div class="risk"><span class="badge b-grey">N/A</span><div class="meta"><div class="title">Phase 6 還沒開始</div><div class="desc">部署 / 備份 / 上線檢查 ⏳</div></div></div>
   </div>
@@ -209,9 +209,10 @@
   <div class="card">
     <div style="font-size:14px;line-height:1.8">
       <b>立即可做（Phase 6 起手）</b><br>
-      → Mac mini 遷移 + Docker 生產設定 + 備份策略（RPO/RTO）+ OWASP pentest<br>
-      → AI Team #1(b) daemon/bridge 可同趟立（Mac 反正 Phase 6 要遷）<br>
-      → Backlog 順手清：smoke 非冪等債 + CR-4-005 補斷言<br><br>
+      → 部署到<b>自管雲端 VPS</b>（公司內部使用）：生產 docker-compose + nginx/TLS + 備份策略（RPO/RTO）+ OWASP pentest<br>
+      → Phase 6 是「部署 phase」、不走標準七步；AI Team 產<b>部署包 + runbook</b>、實際上線由業主在 VPS 執行<br>
+      → Backlog 順手清：smoke 非冪等債 + CR-4-005 補斷言<br>
+      → 註：AI Team 自己遷 Mac 是<b>另一條獨立的路</b>（與本案部署無關）<br><br>
       <b>Phase 6 後 / 下個專案</b><br>
       → 統一做使用者面 UI（策略 A）<br>
       → 真正內部上線、導入員工使用
